@@ -130,16 +130,20 @@ erDiagram
 | email                                              | Email владельца         | TEXT          | UNIQUE, NOT NULL                    |
 | phone                                              | Телефон владельца       | TEXT          |                                     |
 | registration_date                                  | Дата регистрации        | TIMESTAMP     | NOT NULL                            |
-|                                                    |                         |               |                                     |
+
+
 | Clients (Клиенты)                                  |                         |               |                                     |
+|----------------------------------------------------|-------------------------|---------------|-------------------------------------|
 | Название                                           | Описание                | Тип данных    | Ограничения                         |
 | client_id                                          | ID клиента              | SERIAL        | PK                                  |
 | name                                               | Имя клиента             | TEXT          | NOT NULL                            |
 | email                                              | Email клиента           | TEXT          |  UNIQUE, NOT NULL                   |
 | phone                                              | Телефон клиента         | TEXT          |                                     |
 | registration_date                                  | Дата регистрации        | TIMESTAMP     | NOT NULL                            |
-|                                                    |                         |               |                                     |
+
+
 | Properties (Недвижимость)                          |                         |               |                                     |
+|----------------------------------------------------|-------------------------|---------------|-------------------------------------|
 | Название                                           | Описание                | Тип данных    | Ограничения                         |
 | property_id                                        | ID недвижимости         | SERIAL        | PK                                  |
 | owner_id                                           | ID владельца            | INTEGER       | FK → Owners(owner_id)               |
@@ -147,8 +151,9 @@ erDiagram
 | description                                        | Описание                | TEXT          |                                     |
 | price                                              | Цена                    | NUMERIC(10,3) | NOT NULL                            |
 | status                                             | Статус                  | TEXT          | CHECK (available/unavailable)       |
-|                                                    |                         |               |                                     |
+
 | Bookings (Бронирования)                            |                         |               |                                     |
+|----------------------------------------------------|-------------------------|---------------|-------------------------------------|
 | Название                                           | Описание                | Тип данных    | Ограничения                         |
 | booking_id                                         | ID бронирования         | SERIAL        | PK                                  |
 | client_id                                          | ID клиента              | INTEGER       | FK → Clients(client_id)             |
@@ -157,8 +162,9 @@ erDiagram
 | check_out_date                                     | Дата выезда             | DATE          | NOT NULL                            |
 | total_price                                        | Общая стоимость         | NUMERIC(10,3) | NOT NULL                            |
 | status                                             | Статус бронирования     | TEXT          | CHECK (pending/confirmed/cancelled) |
-|                                                    |                         |               |                                     |
+
 | Payments (Оплаты)                                  |                         |               |                                     |
+|----------------------------------------------------|-------------------------|---------------|-------------------------------------|
 | Название                                           | Описание                | Тип данных    | Ограничения                         |
 | payment_id                                         | ID платежа              | SERIAL        | PK                                  |
 | booking_id                                         | ID бронирования         | INTEGER       | FK → Bookings(booking_id)           |
@@ -166,8 +172,9 @@ erDiagram
 | payment_date                                       | Дата платежа            | TIMESTAMP     | NOT NULL                            |
 | payment_method                                     | Метод оплаты            | TEXT          | CHECK (card/cash/bank_transfer)     |
 | status                                             | Статус платежа          | TEXT          | CHECK (completed/pending/failed)    |
-|                                                    |                         |               |                                     |
+
 | Reviews (Отзывы)                                   |                         |               |                                     |
+|----------------------------------------------------|-------------------------|---------------|-------------------------------------|
 | Название                                           | Описание                | Тип данных    | Ограничения                         |
 | review_id                                          | ID отзыва               | SERIAL        | PK                                  |
 | client_id                                          | ID клиента              | INTEGER       | FK → Clients(client_id)             |
@@ -175,8 +182,9 @@ erDiagram
 | rating                                             | Оценка                  | NUMERIC(3, 2) | CHECK (rating BETWEEN 1 AND 5)      |
 | comment                                            | Комментарий             | TEXT          |                                     |
 | review_date                                        | Дата отзыва             | TIMESTAMP     | NOT NULL                            |
-|                                                    |                         |               |                                     |
+
 | PropertiesHistory (История изменений недвижимости) |                         |               |                                     |
+|----------------------------------------------------|-------------------------|---------------|-------------------------------------|
 | Название                                           | Описание                | Тип данных    | Ограничения                         |
 | history_id                                         | ID записи истории       | SERIAL        | PK                                  |
 | property_id                                        | ID недвижимости         | INTEGER       | FK → Properties(property_id)        |
