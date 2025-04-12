@@ -101,80 +101,8 @@ erDiagram
 ---
 
 ## 2. Логическая модель
-```mermaid
-erDiagram
-    Owners {
-        owner_id int PK
-        name text
-        email text
-        phone text
-        registration_date datetime
-    }
+![Untitled (1)](https://github.com/user-attachments/assets/a3153b14-4c51-4a8b-920f-a7836f760e39)
 
-    Clients {
-        client_id int PK
-        name text
-        email text
-        phone text
-        registration_date datetime
-    }
-
-    Properties {
-        property_id int PK
-        owner_id int FK
-        address text
-        description text
-        price decimal
-        status text
-    }
-
-    Bookings {
-        booking_id int PK
-        client_id int FK
-        property_id int FK
-        check_in_date datetime
-        check_out_date datetime
-        total_price decimal
-        status text
-    }
-
-    Payments {
-        payment_id int PK
-        booking_id int FK
-        amount decimal
-        payment_date datetime
-        payment_method text
-        status text
-    }
-
-    Reviews {
-        review_id int PK
-        client_id int FK
-        property_id int FK
-        rating int
-        comment text
-        review_date datetime
-    }
-
-    PropertiesHistory {
-        history_id int PK
-        property_id int FK
-        address text
-        description text
-        price decimal
-        status text
-        valid_from datetime
-        valid_to datetime
-    }
-
-    Owners ||--o{ Properties : "владеет"
-    Clients ||--o{ Bookings : "бронирует"
-    Properties ||--o{ Bookings : "на бронь"
-    Bookings ||--o{ Payments : "оплачивается"
-    Clients ||--o{ Reviews : "оставляет"
-    Properties ||--o{ Reviews : "получает"
-    Properties ||--o{ PropertiesHistory : "изменяется со временем"
-```
 
 ### Описание логической модели
 Логическая модель включает основные сущности с их атрибутами и внешними ключами (FK), которые обеспечивают связь между таблицами. Добавлена таблица `PropertiesHistory` для хранения истории изменений недвижимости.
@@ -194,4 +122,3 @@ erDiagram
 
 
 ## 3. Физическая Модель
-![image](https://github.com/user-attachments/assets/0a1f031a-6bc1-462b-a6c2-b066bba70bc4)
