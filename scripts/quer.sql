@@ -7,15 +7,15 @@ WHERE p.status = 'available'
   AND p.price < 150.00
 ORDER BY p.price ASC;
 
--- 2. Подсчёт бронирований для каждого объекта недвижимости
-SELECT p.property_id,
-       p.address,
-       COUNT(b.booking_id) AS total_bookings
-FROM Properties p
-LEFT JOIN Bookings b ON p.property_id = b.property_id
-GROUP BY p.property_id, p.address
-HAVING COUNT(b.booking_id) > 1
-ORDER BY total_bookings DESC;
+-- 2. Рейтинг объектов по количеству бронирований
+SELECT
+    property_id,
+    address,
+    COUNT(booking_id) AS bookings_count,
+    RANK() OVER (ORDER BY COUNT(booking_id) DESC) AS rank
+FROM Properties
+LEFT JOIN Bookings USING (property_id)
+GROUP BY property_id;
 
 -- 3. Вычисление средней оценки объектов недвижимости
 SELECT p.property_id,
@@ -99,3 +99,44 @@ FROM (
 ) AS sub
 WHERE old_price IS NOT NULL
 ORDER BY property_id, valid_from;
+
+-- 11. Вторая страница топ-10 самых дорогих объектов с их рейтингом
+SELECT 
+    p.property_id,
+    p.address,
+    p.price,
+    ROUND(AVG(r.rating) OVER (PARTITION BY p.property_id), 2) AS avg_rating
+FROM Properties p
+LEFT JOIN Reviews r ON p.property_id = r.property_id
+ORDER BY p.price DESC
+LIMIT 10 OFFSET 10;
+
+-- 12 Владельцы с объектами, которые бронировались, но никогда не отменялись
+SELECT DISTINCT
+    o.owner_id,
+    o.name AS owner_name,
+    p.address
+FROM Bookings b
+RIGHT JOIN
+    Properties p ON b.property_id = p.property_id
+JOIN
+    Owners o ON p.owner_id = o.owner_id
+WHERE
+    EXISTS (
+        SELECT 1
+        FROM Bookings b2
+        WHERE b2.property_id = p.property_id
+    )
+    AND NOT EXISTS (
+        SELECT 1
+        FROM Bookings b3
+        WHERE b3.property_id = p.property_id
+          AND b3.status = 'cancelled'
+    )
+ORDER BY o.owner_id;
+
+-- 13 Поиск объектов с одинаковой ценой
+SELECT a.property_id, a.address, b.property_id, b.address, a.price
+FROM Properties a
+JOIN Properties b ON a.price = b.price 
+WHERE a.property_id < b.property_id;
