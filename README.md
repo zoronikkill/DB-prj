@@ -272,6 +272,7 @@ CREATE TABLE PropertiesHistory (
 ```
 
 ### Запросы к схеме
+### [quer](scripts/quer.sql)
 #### 1) Выбор доступных объектов недвижимости с ценой выше/ниже заданного значения(в примере ниже 150)
 ```postgresql
 SELECT p.property_id,
