@@ -200,7 +200,7 @@ erDiagram
 ### [ddl.sql](scripts/ddl.sql)
 ```postgresql
 -- Таблица владельцев жилья
-CREATE TABLE Owners (
+CREATE TABLE IF NOT EXISTS Owners (
     owner_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
@@ -209,7 +209,7 @@ CREATE TABLE Owners (
 );
 
 -- Таблица клиентов
-CREATE TABLE Clients (
+CREATE TABLE IF NOT EXISTS Clients (
     client_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
@@ -218,7 +218,7 @@ CREATE TABLE Clients (
 );
 
 -- Таблица недвижимости
-CREATE TABLE Properties (
+CREATE TABLE IF NOT EXISTS Properties (
     property_id SERIAL PRIMARY KEY,
     owner_id INT NOT NULL REFERENCES Owners(owner_id) ON DELETE CASCADE,
     address TEXT NOT NULL,
@@ -228,7 +228,7 @@ CREATE TABLE Properties (
 );
 
 -- Таблица бронирований
-CREATE TABLE Bookings (
+CREATE TABLE IF NOT EXISTS Bookings (
     booking_id SERIAL PRIMARY KEY,
     client_id INT NOT NULL REFERENCES Clients(client_id) ON DELETE CASCADE,
     property_id INT NOT NULL REFERENCES Properties(property_id) ON DELETE CASCADE,
@@ -239,7 +239,7 @@ CREATE TABLE Bookings (
 );
 
 -- Таблица оплат
-CREATE TABLE Payments (
+CREATE TABLE IF NOT EXISTS Payments (
     payment_id SERIAL PRIMARY KEY,
     booking_id INT NOT NULL REFERENCES Bookings(booking_id) ON DELETE CASCADE,
     amount NUMERIC(10, 3) NOT NULL,
@@ -249,7 +249,7 @@ CREATE TABLE Payments (
 );
 
 -- Таблица отзывов
-CREATE TABLE Reviews (
+CREATE TABLE IF NOT EXISTS Reviews (
     review_id SERIAL PRIMARY KEY,
     client_id INT NOT NULL REFERENCES Clients(client_id) ON DELETE CASCADE,
     property_id INT NOT NULL REFERENCES Properties(property_id) ON DELETE CASCADE,
@@ -259,7 +259,7 @@ CREATE TABLE Reviews (
 );
 
 -- Таблица истории изменений недвижимости
-CREATE TABLE PropertiesHistory (
+CREATE TABLE IF NOT EXISTS PropertiesHistory (
     history_id SERIAL PRIMARY KEY,
     property_id INT NOT NULL REFERENCES Properties(property_id) ON DELETE CASCADE,
     address TEXT NOT NULL,
